@@ -445,12 +445,8 @@
     const bottomHexX = w / 2;
     centerX = bottomHexX;
     centerY = bottomHexY - Math.sin(Math.PI / 3) * hexSize;
-	const rect = canvas.getBoundingClientRect();
-	const ratioX = rect.width / canvas.width;
-	const ratioY = rect.height / canvas.height;
-	
-	fbText.style.left = `${rect.left + centerX * ratioX}px`;
-	fbText.style.top = `${rect.top + centerY * ratioY}px`;
+    fbText.style.left = `${centerX}px`;
+    fbText.style.top = `${centerY}px`;
     
     hexPoints = [];
     for (let i = 0; i < 6; i++) {
