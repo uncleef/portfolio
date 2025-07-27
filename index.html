@@ -27,7 +27,7 @@
       aspect-ratio: 1 / 1;
       object-fit: contain;
     }
-    #fb-text {
+   /* #fb-text {
       font-family: 'Amatic SC', cursive;
       font-size: clamp(20px, 6vw, 34px);
       color: #ffffff;
@@ -43,7 +43,7 @@
       justify-content: center;
       line-height: 1;
       height: 1em;
-    }
+    }*/
 
     .logo-hex {
       position: relative;
@@ -524,6 +524,15 @@
       showText = true;
       fbText.style.opacity = "1";
     }
+  	if (showText) {
+	ctx.save();
+	ctx.font = `${hexSize * 1.5}px 'Amatic SC', cursive`;
+	ctx.textAlign = "center";
+	ctx.textBaseline = "middle";
+	ctx.fillStyle = "#ffffff";
+	ctx.fillText("FB", centerX, centerY);
+	ctx.restore();
+	}
     const easing = (t) => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
 
     // Intervallo di rallentamento: inizia poco prima dell'esagono e finisce poco dopo
