@@ -1,11 +1,68 @@
-<!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Federico Bruno - Backend Developer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Federico Bruno - Backend Developer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap" rel="stylesheet">
+  <style>
+    #intro-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 1s ease;
+    }
+    canvas#animation-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    #fb-text {
+      font-family: 'Amatic SC', cursive;
+      font-size: 30px;
+      color: #ffffff;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+    }
+    
+    .logo-hex {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hexagon {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .logo-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -54%);
+      font-family: 'Amatic SC', cursive;
+      font-weight: 400;
+      font-size: 18px;
+      color: #ffffff;
+      line-height: 1;
+      pointer-events: none;
+    }
+    
     <style>
-        <style>
         * {
             margin: 0;
             padding: 0;
@@ -320,91 +377,162 @@
             scroll-behavior: smooth;
         }
     </style>
-    </style>
+  </style>
 </head>
 <body>
-
-<!-- Intro Animation -->
-<div id="intro-animation" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%); display: flex; align-items: center; justify-content: center; z-index: 2000; transition: opacity 1s ease;">
-    <canvas id="animation-canvas" width="300" height="300" style="max-width: 100%; height: auto;"></canvas>
+<div id="intro-animation">
+  <canvas id="animation-canvas"></canvas>
+  <div id="fb-text">FB</div>
 </div>
-
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const canvas = document.getElementById("animation-canvas");
-        const ctx = canvas.getContext("2d");
-        const hexCenterX = canvas.width / 2;
-        const hexCenterY = canvas.height / 2;
-        const hexRadius = 100;
-        const letterColor = "#60a5fa";
-        const hexColor = "#3b82f6";
+  const canvas = document.getElementById("animation-canvas");
+  const ctx = canvas.getContext("2d");
+  const fbText = document.getElementById("fb-text");
+  let w, h;
+  let centerX = 0;
+  let centerY = 0;
+  const hexSize = 30;
+  const speed = 6;
+  const snakeLength = 70;
+  let path = [];
+  let hexPoints = [];
+  let segments = [];
+  let totalLength = 0;
+  let offset = 0;
+  let showText = false;
+  let textAlpha = 0;
+  let hexLoopLength = 0;
+  function resizeCanvas() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    const bottomHexY = h / 2;
+    const bottomHexX = w / 2;
+    centerX = bottomHexX;
+    centerY = bottomHexY - Math.sin(Math.PI / 3) * hexSize;
+    fbText.style.left = `${centerX}px`;
+    fbText.style.top = `${centerY}px`;
+    hexPoints = [];
+    for (let i = 0; i < 6; i++) {
+      const angle = Math.PI / 3 * i + Math.PI / 2;
+      const x = centerX + hexSize * Math.cos(angle);
+      const y = centerY + hexSize * Math.sin(angle);
+      hexPoints.push({ x, y });
+    }
+    hexPoints.push(hexPoints[0]);
+    const entry = { x: -100, y: hexPoints[0].y };
+    const exit = { x: w + 100, y: hexPoints[0].y };
+    path = [];
+    path.push(entry);
+    path.push(hexPoints[0]);
+    path.push(...hexPoints.slice().reverse());
+    path.push(exit);
+    segments = [];
+    for (let i = 0; i < path.length - 1; i++) {
+      const a = path[i];
+      const b = path[i + 1];
+      const dx = a.x - b.x;
+      const dy = a.y - b.y;
+      const length = Math.hypot(dx, dy);
+      segments.push({ a, b, length });
+    }
+    totalLength = segments.reduce((sum, seg) => sum + seg.length, 0);
+    hexLoopLength = segments.slice(0, hexPoints.length + 1).reduce((sum, seg) => sum + seg.length, 0);
+  }
+  function drawSnake() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#ffffff";
+    ctx.beginPath();
+    for (let i = 0; i < hexPoints.length - 1; i++) {
+      ctx.moveTo(hexPoints[i].x, hexPoints[i].y);
+      ctx.lineTo(hexPoints[i + 1].x, hexPoints[i + 1].y);
+    }
+    ctx.stroke();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = "#60a5fa";
+    ctx.beginPath();
+    let distance = 0;
+    let snakeStart = offset;
+    let snakeEnd = offset + snakeLength;
+    for (let i = 0; i < segments.length; i++) {
+      const seg = segments[i];
+      if (distance + seg.length < snakeStart) {
+        distance += seg.length;
+        continue;
+      }
+      const segStart = Math.max(0, snakeStart - distance);
+      const segEnd = Math.min(seg.length, snakeEnd - distance);
+      if (segStart >= segEnd) {
+        distance += seg.length;
+        continue;
+      }
+      const t0 = segStart / seg.length;
+      const t1 = segEnd / seg.length;
+      const x0 = seg.a.x + (seg.b.x - seg.a.x) * t0;
+      const y0 = seg.a.y + (seg.b.y - seg.a.y) * t0;
+      const x1 = seg.a.x + (seg.b.x - seg.a.x) * t1;
+      const y1 = seg.a.y + (seg.b.y - seg.a.y) * t1;
+      ctx.moveTo(x0, y0);
+      ctx.lineTo(x1, y1);
+      distance += seg.length;
+    }
+    ctx.stroke();
+    if (offset >= hexLoopLength - snakeLength && !showText) {
+      showText = true;
+      fbText.style.opacity = "1";
+    }
+    const easing = (t) => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
 
-        let alpha = 0;
+    // Intervallo di rallentamento: inizia poco prima dell'esagono e finisce poco dopo
+    const slowStart = hexLoopLength * 0.25;
+    const slowEnd = hexLoopLength * 0.75;
 
-        function drawHexagon(x, y, r, strokeStyle, alphaVal) {
-            ctx.save();
-            ctx.globalAlpha = alphaVal;
-            ctx.beginPath();
-            for (let i = 0; i < 6; i++) {
-                const angle = Math.PI / 3 * i - Math.PI / 6;
-                const px = x + r * Math.cos(angle);
-                const py = y + r * Math.sin(angle);
-                if (i === 0) ctx.moveTo(px, py);
-                else ctx.lineTo(px, py);
-            }
-            ctx.closePath();
-            ctx.strokeStyle = strokeStyle;
-            ctx.lineWidth = 2;
-            ctx.stroke();
-            ctx.restore();
-        }
+    // Calcola progressione t tra 0 e 1 nell'intervallo di rallentamento
+    let t = 0;
+    if (offset >= slowStart && offset <= slowEnd) {
+      t = (offset - slowStart) / (slowEnd - slowStart);
+    }
 
-        function drawLetters(x, y, color, alphaVal) {
-            ctx.save();
-            ctx.globalAlpha = alphaVal;
-            ctx.fillStyle = color;
-            ctx.font = "bold 48px 'Segoe UI', sans-serif";
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText("F B", x, y);
-            ctx.restore();
-        }
+    // Applica easing solo nell'intervallo, altrimenti t = 0
+    const eased = easing(t);
+    const dynamicSpeed = speed * (1 - 0.6 * eased); // rallenta fino al 40% dello speed
 
-        function animateIntro() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            alpha = Math.min(alpha + 0.02, 1);
-            drawHexagon(hexCenterX, hexCenterY, hexRadius, hexColor, alpha);
-            drawLetters(hexCenterX, hexCenterY, letterColor, alpha);
-
-            if (alpha < 1) {
-                requestAnimationFrame(animateIntro);
-            } else {
-                setTimeout(() => {
-                    const intro = document.getElementById("intro-animation");
-                    intro.style.opacity = "0";
-                    setTimeout(() => intro.remove(), 1000)
-                    window.scrollTo(0, 0); 
-                }, 1000);
-            }
-        }
-
-        animateIntro();
-    });
+    offset += dynamicSpeed;
+    if (offset > totalLength + snakeLength) {
+      document.getElementById("intro-animation").style.opacity = "0";
+      setTimeout(() => {
+        document.getElementById("intro-animation").remove();
+        window.scrollTo(0, 0);
+      }, 1000);
+      return;
+    }
+    requestAnimationFrame(drawSnake);
+  }
+  window.addEventListener("resize", () => {
+    resizeCanvas();
+  });
+  document.addEventListener("DOMContentLoaded", () => {
+    resizeCanvas();
+    drawSnake();
+  });
 </script>
-<!-- Fine Intro Animation -->
-
 <!-- Header -->
 <header class="header">
-    <nav class="nav container">
-        <div class="logo">Portfolio</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#skills">Skills</a></li>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-    </nav>
+  <nav class="nav container">
+    <div class="logo-hex">
+      <svg viewBox="0 0 100 100" class="hexagon">
+        <polygon points="50,0 93,25 93,75 50,100 7,75 7,25" stroke="#60a5fa" stroke-width="2" fill="none" />
+      </svg>
+      <div class="logo-text">FB</div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
 </header>
 
 <!-- Hero Section -->
