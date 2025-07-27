@@ -419,7 +419,6 @@
 <body>
 <div id="intro-animation">
   <canvas id="animation-canvas"></canvas>
-  <div id="fb-text">FB</div>
 </div>
 <script>
   const canvas = document.getElementById("animation-canvas");
@@ -521,18 +520,19 @@
     }
     ctx.stroke();
     if (offset >= hexLoopLength - snakeLength && !showText) {
-      showText = true;
-      fbText.style.opacity = "1";
-    }
-  	if (showText) {
-	ctx.save();
-	ctx.font = `18px 'Amatic SC', cursive`;
-	ctx.textAlign = "center";
-	ctx.textBaseline = "middle";
-	ctx.fillStyle = "#ffffff";
-	ctx.fillText("FB", centerX, centerY);
-	ctx.restore();
+	  showText = true;
 	}
+	
+	if (showText) {
+	  ctx.save();
+	  ctx.font = `24px 'Amatic SC', cursive`;
+	  ctx.textAlign = "center";
+	  ctx.textBaseline = "middle";
+	  ctx.fillStyle = "#ffffff";
+	  ctx.fillText("FB", centerX, centerY);
+	  ctx.restore();
+	}
+
     const easing = (t) => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
 
     // Intervallo di rallentamento: inizia poco prima dell'esagono e finisce poco dopo
