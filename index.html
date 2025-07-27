@@ -519,19 +519,18 @@
       distance += seg.length;
     }
     ctx.stroke();
-    if (offset >= hexLoopLength - snakeLength && !showText) {
-	  showText = true;
-	}
-	
-	if (showText) {
-	  ctx.save();
-	  ctx.font = `24px 'Amatic SC', cursive`;
-	  ctx.textAlign = "center";
-	  ctx.textBaseline = "middle";
-	  ctx.fillStyle = "#ffffff";
-	  ctx.fillText("FB", centerX, centerY);
-	  ctx.restore();
-	}
+    const textStart = hexLoopLength + 20;
+const textEnd = textStart + 60;
+
+if (offset >= textStart && offset <= textEnd) {
+  ctx.save();
+  ctx.font = `${hexSize * 0.9}px 'Amatic SC', cursive`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillStyle = "#ffffff";
+  ctx.fillText("FB", centerX, centerY);
+  ctx.restore();
+}
 
     const easing = (t) => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
 
