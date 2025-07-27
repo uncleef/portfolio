@@ -419,6 +419,7 @@
 <body>
 <div id="intro-animation">
   <canvas id="animation-canvas"></canvas>
+  <div id="fb-text">FB</div>
 </div>
 <script>
   const canvas = document.getElementById("animation-canvas");
@@ -519,18 +520,10 @@
       distance += seg.length;
     }
     ctx.stroke();
-    const textStart = hexLoopLength + 20;
-const textEnd = textStart + 60;
-
-if (offset >= textStart && offset <= textEnd) {
-  ctx.save();
-  ctx.font = `${hexSize * 0.9}px 'Amatic SC', cursive`;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "#ffffff";
-  ctx.fillText("FB", centerX, centerY);
-  ctx.restore();
-}
+    if (offset >= hexLoopLength - snakeLength && !showText) {
+      showText = true;
+      fbText.style.opacity = "1";
+    }
 
     const easing = (t) => -(Math.cos(Math.PI * t) - 1) / 2; // easeInOutSine
 
