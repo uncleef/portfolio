@@ -24,6 +24,8 @@
       width: 100%;
       height: 100%;
       display: block;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
     }
     #fb-text {
       font-family: 'Amatic SC', cursive;
@@ -44,21 +46,13 @@
       align-items: center;
       justify-content: center;
     }
-    
+
     .hexagon {
       width: 100%;
-      padding-bottom: 100%; /* crea un quadrato */
+      height: auto;
+      aspect-ratio: 1 / 1;
       display: block;
-      position: relative;
     }
-    .hexagon svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
     .logo-text {
       position: absolute;
       top: 50%;
