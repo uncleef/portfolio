@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Federico Bruno - Backend Developer</title>
     <style>
+        <style>
         * {
             margin: 0;
             padding: 0;
@@ -319,199 +320,222 @@
             scroll-behavior: smooth;
         }
     </style>
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav container">
-            <div class="logo">Portfolio</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Federico Bruno</h1>
-            <p class="subtitle">Backend Java Developer</p>
-            <p class="description">
-                Backend developer specialized in Java and Spring Boot.
-                I create robust and scalable APIs with focus on performance and best practices.
-            </p>
-            <a href="#contact" class="btn">Get in Touch</a>
-        </div>
-    </section>
+<!-- Intro Animation -->
+<div id="intro-animation" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%); display: flex; align-items: center; justify-content: center; z-index: 2000; transition: opacity 1s ease;">
+    <canvas id="animation-canvas" width="300" height="300" style="max-width: 100%; height: auto;"></canvas>
+</div>
 
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>
-                      I'm a backend developer with a passion for creating robust and scalable systems. 
-                      I specialize in REST API development with Java and Spring Boot.
-                    </p>
-                    <p>
-                      My experience includes designing microservices architectures, 
-                      integrating with relational and NoSQL databases, and implementing secure authentication systems.
-                    </p>
-                    <p>
-                      I'm always looking for new technical challenges and opportunities 
-                      to improve my skills in the backend development world.
-                    </p>
-                </div>
-                <div class="about-image">
-                    <div class="profile-placeholder">👨‍💻</div>
-                </div>
-            </div>
-        </div>
-    </section>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.getElementById("animation-canvas");
+        const ctx = canvas.getContext("2d");
+        const hexCenterX = canvas.width / 2;
+        const hexCenterY = canvas.height / 2;
+        const hexRadius = 100;
+        const letterColor = "#60a5fa";
+        const hexColor = "#3b82f6";
 
-    <!-- Skills Section -->
-    <section id="skills" class="section">
-        <div class="container">
-            <h2 class="section-title">Skills & Technologies</h2>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h3>Backend Technologies</h3>
-                    <ul class="skill-list">
-                        <li>Java 7+</li>
-                        <li>Spring Boot</li>
-                        <li>Spring Security</li>
-                        <li>Spring Data JPA</li>
-                        <li>Hibernate</li>
-                        <li>Maven</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h3>Database & Storage</h3>
-                    <ul class="skill-list">
-                        <li>PostgreSQL</li>
-                        <li>MySQL</li>
-                        <li>H2 Database</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h3>Tools & DevOps</h3>
-                    <ul class="skill-list">
-                        <li>Git & GitHub</li>
-                        <li>Docker</li>
-                        <li>Postman</li>
-                        <li>IntelliJ IDEA</li>
-                    </ul>
-                </div>
-                <div class="skill-card">
-                    <h3>Testing & Quality</h3>
-                    <ul class="skill-list">
-                        <li>JUnit 5</li>
-                        <li>Mockito</li>
-                        <li>Integration Testing</li>
-                        <li>Test-Driven Development</li>
-                        <li>Code Review</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
+        let alpha = 0;
 
-    <!-- Projects Section -->
-    <section id="projects" class="section">
-        <div class="container">
-            <h2 class="section-title">Projects</h2>
-            <div class="projects-grid">
-                <div class="project-card">
-                    <h3>Coming Soon</h3>
-                    <p>
-                        New projects are currently in development. Stay tuned for updates!
-                    </p>
-                    <div class="tech-tags">
-                        <span class="tech-tag">Java</span>
-                        <span class="tech-tag">Spring Boot</span>
-                        <span class="tech-tag">PostgreSQL</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        function drawHexagon(x, y, r, strokeStyle, alphaVal) {
+            ctx.save();
+            ctx.globalAlpha = alphaVal;
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = Math.PI / 3 * i - Math.PI / 6;
+                const px = x + r * Math.cos(angle);
+                const py = y + r * Math.sin(angle);
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = strokeStyle;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.restore();
+        }
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <div class="contact-content">
-                <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 2rem;">
-                    Interessato a collaborare? Contattami per discutere opportunità di lavoro o progetti interessanti.
-                </p>
-                <div class="contact-info">
-                    <a href="mailto:federico.bruno90@gmail.com" class="contact-item">📧 Email</a>
-                    <a href="https://linkedin.com/in/federico-bruno-n1" class="contact-item">💼 LinkedIn</a>
-                    <a href="https://github.com/tuo-username" class="contact-item">🐙 GitHub</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        function drawLetters(x, y, color, alphaVal) {
+            ctx.save();
+            ctx.globalAlpha = alphaVal;
+            ctx.fillStyle = color;
+            ctx.font = "bold 48px 'Segoe UI', sans-serif";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText("F B", x, y);
+            ctx.restore();
+        }
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2025 Federico Bruno. Developed with ❤️ using HTML, CSS & JavaScript.</p>
-        </div>
-    </footer>
+        function animateIntro() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            alpha = Math.min(alpha + 0.02, 1);
+            drawHexagon(hexCenterX, hexCenterY, hexRadius, hexColor, alpha);
+            drawLetters(hexCenterX, hexCenterY, letterColor, alpha);
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Header background on scroll
-        window.addEventListener('scroll', function() {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 100) {
-                header.style.background = 'rgba(15, 20, 25, 0.98)';
+            if (alpha < 1) {
+                requestAnimationFrame(animateIntro);
             } else {
-                header.style.background = 'rgba(15, 20, 25, 0.95)';
+                setTimeout(() => {
+                    const intro = document.getElementById("intro-animation");
+                    intro.style.opacity = "0";
+                    setTimeout(() => intro.remove(), 1000);
+                }, 1000);
+            }
+        }
+
+        animateIntro();
+    });
+</script>
+<!-- Fine Intro Animation -->
+
+<!-- Header -->
+<header class="header">
+    <nav class="nav container">
+        <div class="logo">Portfolio</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="hero-content">
+        <h1>Federico Bruno</h1>
+        <p class="subtitle">Backend Java Developer</p>
+        <p class="description">
+            Backend developer specialized in Java and Spring Boot.
+            I create robust and scalable APIs with focus on performance and best practices.
+        </p>
+        <a href="#contact" class="btn">Get in Touch</a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="section">
+    <div class="container">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    I'm a backend developer with a passion for creating robust and scalable systems.
+                    I specialize in REST API development with Java and Spring Boot.
+                </p>
+                <p>
+                    My experience includes designing microservices architectures,
+                    integrating with relational and NoSQL databases, and implementing secure authentication systems.
+                </p>
+                <p>
+                    I'm always looking for new technical challenges and opportunities
+                    to improve my skills in the backend development world.
+                </p>
+            </div>
+            <div class="about-image">
+                <div class="profile-placeholder">👨‍💻</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section">
+    <div class="container">
+        <h2 class="section-title">Skills & Technologies</h2>
+        <div class="skills-grid">
+            <!-- skill cards... -->
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section">
+    <div class="container">
+        <h2 class="section-title">Projects</h2>
+        <div class="projects-grid">
+            <!-- project cards... -->
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section">
+    <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <div class="contact-content">
+            <p style="color: #cbd5e1; font-size: 1.1rem; margin-bottom: 2rem;">
+                Interessato a collaborare? Contattami per discutere opportunità di lavoro o progetti interessanti.
+            </p>
+            <div class="contact-info">
+                <a href="mailto:federico.bruno90@gmail.com" class="contact-item">📧 Email</a>
+                <a href="https://linkedin.com/in/federico-bruno-n1" class="contact-item">💼 LinkedIn</a>
+                <a href="https://github.com/tuo-username" class="contact-item">🐙 GitHub</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 Federico Bruno. Developed with ❤️ using HTML, CSS & JavaScript.</p>
+    </div>
+</footer>
+
+<script>
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
             }
         });
+    });
 
-        // Simple animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+    // Header background on scroll
+    window.addEventListener('scroll', function () {
+        const header = document.querySelector('.header');
+        if (window.scrollY > 100) {
+            header.style.background = 'rgba(15, 20, 25, 0.98)';
+        } else {
+            header.style.background = 'rgba(15, 20, 25, 0.95)';
+        }
+    });
 
-        const observer = new IntersectionObserver(function(entries) {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
+    // Simple animation on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
 
-        // Observe all skill cards and project cards
-        document.querySelectorAll('.skill-card, .project-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
+    const observer = new IntersectionObserver(function (entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
         });
-    </script>
+    }, observerOptions);
+
+    // Observe all skill cards and project cards
+    document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(card);
+    });
+</script>
 </body>
 </html>
