@@ -419,6 +419,7 @@
 <body>
 <div id="intro-animation">
   <canvas id="animation-canvas"></canvas>
+  <div id="fb-text">FB</div>
 </div>
 <script>
   const canvas = document.getElementById("animation-canvas");
@@ -445,8 +446,13 @@
     const bottomHexX = w / 2;
     centerX = bottomHexX;
     centerY = bottomHexY - Math.sin(Math.PI / 3) * hexSize;
-    fbText.style.left = `${centerX}px`;
-    fbText.style.top = `${centerY}px`;
+    
+    const rect = canvas.getBoundingClientRect();
+    const ratioX = rect.width / canvas.width;
+    const ratioY = rect.height / canvas.height;
+
+    fbText.style.left = `${rect.left + centerX * ratioX}px`;
+    fbText.style.top = `${rect.top + centerY * ratioY}px`;
     
     hexPoints = [];
     for (let i = 0; i < 6; i++) {
