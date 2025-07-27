@@ -382,7 +382,8 @@
                 setTimeout(() => {
                     const intro = document.getElementById("intro-animation");
                     intro.style.opacity = "0";
-                    setTimeout(() => intro.remove(), 1000);
+                    setTimeout(() => intro.remove(), 1000)
+                    window.scrollTo(0, 0); 
                 }, 1000);
             }
         }
