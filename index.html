@@ -419,7 +419,6 @@
 <body>
 <div id="intro-animation">
   <canvas id="animation-canvas"></canvas>
-  <div id="fb-text">FB</div>
 </div>
 <script>
   const canvas = document.getElementById("animation-canvas");
@@ -493,6 +492,15 @@ fbText.style.top = `${centerY}px`;
       ctx.lineTo(hexPoints[i + 1].x, hexPoints[i + 1].y);
     }
     ctx.stroke();
+	  if (showText) {
+    ctx.save();
+    ctx.font = `18px 'Amatic SC', cursive`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("FB", centerX, centerY);
+    ctx.restore();
+}
     ctx.lineWidth = 2;
     ctx.strokeStyle = "#60a5fa";
     ctx.beginPath();
