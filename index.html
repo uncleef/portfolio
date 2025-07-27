@@ -5,6 +5,8 @@
   <title>Federico Bruno - Backend Developer</title>
   <link href="https://fonts.googleapis.com/css2?family=Amatic+SC&display=swap" rel="stylesheet">
   <style>
+  
+  
     #intro-animation {
       position: fixed;
       top: 0;
@@ -72,7 +74,7 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #e0e6ed;
+            color: #ffffff;
             background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
             overflow-x: hidden;
         }
@@ -136,10 +138,11 @@
         .hero-content h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #60a5fa, #3b82f6);
+            background: linear-gradient(135deg, #ffffff, #ffffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+			color: #ffffff;
         }
 
         .hero-content .subtitle {
@@ -238,7 +241,7 @@
         }
 
         .skill-card h3 {
-            color: #60a5fa;
+            color: #ffffff;
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
@@ -282,7 +285,7 @@
         }
 
         .project-card h3 {
-            color: #60a5fa;
+            color: #ffffff;
             margin-bottom: 1rem;
             font-size: 1.3rem;
         }
@@ -339,6 +342,31 @@
             padding: 2rem 0;
             border-top: 1px solid rgba(96, 165, 250, 0.2);
             color: #94a3b8;
+        }
+        
+        .icon-link {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          margin: 0 10px;
+          border: 2px solid #ffffff;
+          border-radius: 50%;
+          transition: background 0.3s ease, transform 0.3s ease;
+          color: #ffffff;
+          text-decoration: none;
+        }
+
+        .icon-link:hover {
+          background: rgba(255, 255, 255, 0.1);
+          transform: scale(1.05);
+        }
+
+        .icon-link svg {
+          width: 24px;
+          height: 24px;
+          fill: currentColor;
         }
 
         /* Mobile Responsive */
@@ -642,13 +670,29 @@
 <!-- Contact Section -->
 <section id="contact" class="section">
     <div class="container">
-        <h2 class="section-title">Get in Touch</h2>
-        <div class="contact-content">
-            <div class="contact-info">
-                <a href="mailto:federico.bruno90@gmail.com" class="contact-item">📧 Email</a>
-                <a href="https://linkedin.com/in/federico-bruno-n1" class="contact-item">💼 LinkedIn</a>
-                <a href="https://github.com/tuo-username" class="contact-item">🐙 GitHub</a>
-            </div>
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-info">
+  <!-- LinkedIn -->
+  <a href="https://linkedin.com/in/federico-bruno-n1" target="_blank" rel="noopener noreferrer" class="icon-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512" fill="currentColor">
+      <path d="M100.28 448H7.4V148.9h92.88zm-46.44-341C24.29 107 0 82.7 0 52.89 0 23.08 24.29 0 53.84 0s53.84 23.08 53.84 52.89C107.68 82.7 83.39 107 53.84 107zM447.8 448h-92.4V302.4c0-34.7-.7-79.3-48.3-79.3-48.3 0-55.7 37.7-55.7 76.7V448h-92.4V148.9h88.7v40.8h1.3c12.4-23.6 42.6-48.3 87.8-48.3 93.9 0 111.2 61.8 111.2 142.3V448z"/>
+    </svg>
+  </a>
+
+  <!-- Email -->
+  <a href="mailto:federico.bruno90@gmail.com" target="_blank" rel="noopener noreferrer" class="icon-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+      <path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2zm2-1a1 1 0 00-1 1v.217l7 4.2 7-4.2V4a1 1 0 00-1-1H2zm13 2.383-4.708 2.825L15 11.105V5.383zM.966 13.259L6.606 9.788 8 10.583l1.394-.795 5.64 3.47A1 1 0 0014 13H2a1 1 0 00-.966.741z"/>
+    </svg>
+  </a>
+
+  <!-- GitHub -->
+  <a href="https://github.com/tuo-username" target="_blank" rel="noopener noreferrer" class="icon-link">
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M12 .5a12 12 0 00-3.8 23.4c.6.1.8-.2.8-.6v-2c-3.3.7-4-1.6-4-1.6a3.1 3.1 0 00-1.3-1.8c-1.1-.8.1-.8.1-.8a2.5 2.5 0 011.8 1.2 2.6 2.6 0 003.5 1 2.6 2.6 0 01.8-1.6c-2.7-.3-5.5-1.3-5.5-5.7a4.5 4.5 0 011.2-3.1 4.2 4.2 0 01.1-3s1-.3 3.2 1.2a11.1 11.1 0 015.8 0c2.2-1.5 3.2-1.2 3.2-1.2a4.2 4.2 0 01.1 3 4.5 4.5 0 011.2 3.1c0 4.4-2.8 5.4-5.5 5.7a2.9 2.9 0 01.8 2.2v3.2c0 .4.2.7.8.6A12 12 0 0012 .5z"/>
+    </svg>
+  </a>
+</div>
         </div>
     </div>
 </section>
